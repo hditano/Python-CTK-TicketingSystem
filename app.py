@@ -37,11 +37,41 @@ class App(customtkinter.CTk):
         self.title('my app')
         self.geometry('800x600')
         self.grid_columnconfigure((0,1), weight=1)
+       
+        self.label_name = customtkinter.CTkLabel(self, text='Company Name', fg_color='transparent')
+        self.label_name.grid(row=0, column=0, sticky='ew', padx=20)
+        self.input_name = customtkinter.CTkEntry(self, placeholder_text='Company')
+        self.input_name.grid(row=0, column=1, pady=5)
         
-        self.button1 = customtkinter.CTkButton(self, text='Create Database', command=self.button_create_database)
-        self.button1.grid(row=0, column=0, pady=20, sticky='ew', columnspan=2)
+        self.label_address = customtkinter.CTkLabel(self, text='Address', fg_color='transparent')
+        self.label_address.grid(row=1, column=0, sticky='ew', padx=20)
+        self.input_address = customtkinter.CTkEntry(self, placeholder_text='Address')
+        self.input_address.grid(row=1, column=1, pady=5)
+        
+        self.label_phone_number = customtkinter.CTkLabel(self, text='Phone Number', fg_color='transparent')
+        self.label_phone_number.grid(row=2, column=0, sticky='ew', padx=20)
+        self.input_phone_number = customtkinter.CTkEntry(self, placeholder_text='1234-1234')
+        self.input_phone_number.grid(row=2, column=1, pady=5)
+        
+        self.label_email_address = customtkinter.CTkLabel(self, text='email address', fg_color='transparent')
+        self.label_email_address.grid(row=3, column=0, sticky='ew', padx=20)
+        self.input_email_address = customtkinter.CTkEntry(self, placeholder_text='email@mail.com')
+        self.input_email_address.grid(row=3, column=1, pady=5)
+        
+        self.label_city = customtkinter.CTkLabel(self, text='City', fg_color='transparent')
+        self.label_city.grid(row=4, column=0, sticky='ew', padx=20)
+        self.input_city = customtkinter.CTkEntry(self, placeholder_text='Type City')
+        self.input_city.grid(row=4, column=1, pady=5)
+        
+        self.label_country = customtkinter.CTkLabel(self, text='Country', fg_color='transparent')
+        self.label_country.grid(row=5, column=0, sticky='ew', padx=20)
+        self.input_country = customtkinter.CTkEntry(self, placeholder_text='country..')
+        self.input_country.grid(row=5, column=1, pady=5)
+        
+        self.button1 = customtkinter.CTkButton(self, text='Create Database', command=self.button_create_database, width=20)
+        self.button1.grid(row=6, column=0, pady=10, padx=20, sticky='ew', columnspan=1)
         self.button2 = customtkinter.CTkButton(self, text='Insert Data', command=self.add_data)
-        self.button2.grid(row=1, column=0, pady=20, sticky='ew', columnspan=2)
+        self.button2.grid(row=7, column=0, pady=10, padx=20, sticky='ew', columnspan=1)
     
     def button_create_database(self):
         database = db
