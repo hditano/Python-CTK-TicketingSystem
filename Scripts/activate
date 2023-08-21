@@ -38,7 +38,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="D:\Python-Test"
+VIRTUAL_ENV="D:\Python-CTK-TicketingSystem"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"
@@ -55,9 +55,9 @@ fi
 
 if [ -z "${VIRTUAL_ENV_DISABLE_PROMPT:-}" ] ; then
     _OLD_VIRTUAL_PS1="${PS1:-}"
-    PS1="(Python-Test) ${PS1:-}"
+    PS1="(Python-CTK-TicketingSystem) ${PS1:-}"
     export PS1
-    VIRTUAL_ENV_PROMPT="(Python-Test) "
+    VIRTUAL_ENV_PROMPT="(Python-CTK-TicketingSystem) "
     export VIRTUAL_ENV_PROMPT
 fi
 
