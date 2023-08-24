@@ -21,19 +21,14 @@ class Company(Model):
 class Ticket:
     
     def new_ticket(self):
-        print('Hello to Ticketing App')
-        name = input('Type Name: ')
-        address = input('Type address: ')
-        phone_number = input('Type Phone Number: ')
-        email_address = input('Type email address: ')
-        city = input('Type City: ')
-        country = input('Type Country: ')
-        new_ticket = Company.create(name=name, address=address, phone_number=phone_number, email_address=email_address, city=city, country=country)
-        new_ticket.save()
+        pass
+
         
 class MyTab(customtkinter.CTkTabview):
     def __init__(self, master, **kwargs):
         super().__init__(master, **kwargs)
+        
+        name_input = customtkinter.StringVar()
         
         self.add('View Data')
         self.add('New Data')
@@ -41,13 +36,13 @@ class MyTab(customtkinter.CTkTabview):
         self.label_tab1 = customtkinter.CTkLabel(master=self.tab('View Data'), text='View Data')
         
         self.label_tab2 = customtkinter.CTkLabel(master=self.tab('New Data'), text='New Data')
-        
-        
          
         self.label_name = customtkinter.CTkLabel(master=self.tab('New Data'), text='Company Name', fg_color='transparent')
         self.label_name.grid(row=0, column=0, sticky='ew', padx=20)
         self.input_name = customtkinter.CTkEntry(master=self.tab('New Data'), placeholder_text='Company')
         self.input_name.grid(row=0, column=1, pady=5)
+        name_input = self.input_name.get()
+        print(name_input)
         
         self.label_address = customtkinter.CTkLabel(master=self.tab('New Data'), text='Address', fg_color='transparent')
         self.label_address.grid(row=1, column=0, sticky='ew', padx=20)
@@ -74,6 +69,22 @@ class MyTab(customtkinter.CTkTabview):
         self.input_country = customtkinter.CTkEntry(master=self.tab('New Data'), placeholder_text='country..')
         self.input_country.grid(row=5, column=1, pady=5)
         
+
+
+class Utilities:
+    def button_create_database(self):
+        database = db
+        if os.path.exists('database.db'):
+            print('Database already exists..')
+        else:
+            print('Connecting to Database..')
+            db.connect()
+            print('Creating Tables')
+            db.create_tables([Company])
+            print('Tables Created')
+    
+    def add_data(self, data):
+        print(f'Hello {data}')
         
 class App(customtkinter.CTk):
     def __init__(self) -> None:
@@ -89,32 +100,16 @@ class App(customtkinter.CTk):
         
         self.tab_view = MyTab(master=self)
         self.tab_view.grid(row=0, column=0)
-      
-
-        self.button1 = customtkinter.CTkButton(self, text='Create Database', command=self.button_create_database, width=20)
+        
+        self.button1 = customtkinter.CTkButton(self, text='Create Database', command=Utilities().button_create_database, width=20)
         self.button1.grid(row=6, column=1, sticky='nw', ipadx=100)
         self.button1.place(x=50, y=300)
         if os.path.exists('database.db'):
             self.button1.configure(state='disabled')
             
-        self.button2 = customtkinter.CTkButton(self, text='Insert Data', command=self.add_data)
+        self.button2 = customtkinter.CTkButton(self, text='Insert Data', command=Utilities().add_data)
         self.button2.grid(row=6, column=2, sticky='nw')
         self.button2.place(x=170, y=300)
-    
-    def button_create_database(self):
-        database = db
-        if os.path.exists('database.db'):
-            print('Database already exists..')
-        else:
-            print('Connecting to Database..')
-            db.connect()
-            print('Creating Tables')
-            db.create_tables([Company])
-            print('Tables Created')
-    
-    def add_data(self):
-        myTicket = Ticket()
-        myTicket.new_ticket()   
 
 if __name__ == '__main__':
     app = App()
