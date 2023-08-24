@@ -1,6 +1,7 @@
 from datetime import datetime
 import customtkinter
 from peewee import *
+import os
 
 
 db = SqliteDatabase('database.db')
@@ -75,11 +76,15 @@ class App(customtkinter.CTk):
     
     def button_create_database(self):
         database = db
-        print('Connecting to Database..')
-        db.connect()
-        print('Creating Tables')
-        db.create_tables([Company])
-        print('Tables Created')
+        if os.path.exists('database.db'):
+            print('Database already exists..')
+            self.button1.configure(state='disabled')
+        else:
+            print('Connecting to Database..')
+            db.connect()
+            print('Creating Tables')
+            db.create_tables([Company])
+            print('Tables Created')
     
     def add_data(self):
         myTicket = Ticket()
