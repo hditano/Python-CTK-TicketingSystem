@@ -31,13 +31,29 @@ class Ticket:
         new_ticket = Company.create(name=name, address=address, phone_number=phone_number, email_address=email_address, city=city, country=country)
         new_ticket.save()
         
+class MyTab(customtkinter.CTkTabview):
+    def __init__(self, master, **kwargs):
+        super().__init__(master, **kwargs)
+        
+        self.add('tab 1')
+        self.add('tab 2')
+        
+        self.label = customtkinter.CTkLabel(master=self.tab('tab 1'))
+        self.label.grid(row=0, column=0, padx=20, pady=20)
+        
+        self.label1 = customtkinter.CTkLabel(master=self.tab('tab 2'), text='Hello from tab2')
+        self.label1.grid(row=0, column=0, padx=20, pady=20)
+        
 class App(customtkinter.CTk):
     def __init__(self) -> None:
         super().__init__()
         
         self.title('my app')
-        self.geometry('800x600')
-        self.grid_columnconfigure((0,1), weight=1)
+        self.geometry('350x300')
+        self.grid_columnconfigure((0,2), weight=0)
+        
+        self.tab_view = MyTab(master=self)
+        self.tab_view.grid(row=0, column=0, padx=20, pady=20)
        
         self.label_name = customtkinter.CTkLabel(self, text='Company Name', fg_color='transparent')
         self.label_name.grid(row=0, column=0, sticky='ew', padx=20)
@@ -71,14 +87,16 @@ class App(customtkinter.CTk):
         
         self.button1 = customtkinter.CTkButton(self, text='Create Database', command=self.button_create_database, width=20)
         self.button1.grid(row=6, column=0, pady=10, padx=20, sticky='ew', columnspan=1)
+        if os.path.exists('database.db'):
+            self.button1.configure(state='disabled')
+            
         self.button2 = customtkinter.CTkButton(self, text='Insert Data', command=self.add_data)
-        self.button2.grid(row=7, column=0, pady=10, padx=20, sticky='ew', columnspan=1)
+        self.button2.grid(row=6, column=1, pady=10, padx=20, sticky='ew', columnspan=1)
     
     def button_create_database(self):
         database = db
         if os.path.exists('database.db'):
             print('Database already exists..')
-            self.button1.configure(state='disabled')
         else:
             print('Connecting to Database..')
             db.connect()
