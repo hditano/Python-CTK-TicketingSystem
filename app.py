@@ -18,12 +18,6 @@ class Company(Model):
     class Meta:
         database = db
     
-class Ticket:
-    
-    def new_ticket(self):
-        pass
-
-        
 class MyTab(customtkinter.CTkTabview):
     def __init__(self, master, **kwargs):
         super().__init__(master, **kwargs)
@@ -41,8 +35,7 @@ class MyTab(customtkinter.CTkTabview):
         self.label_name.grid(row=0, column=0, sticky='ew', padx=20)
         self.input_name = customtkinter.CTkEntry(master=self.tab('New Data'), placeholder_text='Company')
         self.input_name.grid(row=0, column=1, pady=5)
-        name_input = self.input_name.get()
-        print(name_input)
+        
         
         self.label_address = customtkinter.CTkLabel(master=self.tab('New Data'), text='Address', fg_color='transparent')
         self.label_address.grid(row=1, column=0, sticky='ew', padx=20)
@@ -72,6 +65,10 @@ class MyTab(customtkinter.CTkTabview):
 
 
 class Utilities:
+    def __init__(self, tab_instance) -> None:
+        #create instance of class MyTab to pass all fields and properties
+        self.tab_instance = tab_instance
+    
     def button_create_database(self):
         database = db
         if os.path.exists('database.db'):
@@ -83,8 +80,10 @@ class Utilities:
             db.create_tables([Company])
             print('Tables Created')
     
-    def add_data(self, data):
-        print(f'Hello {data}')
+    def add_data(self):
+        name = self.tab_instance.input_name.get()
+        address = self.tab_instance.input_address.get()
+        print(f'Hello {name} {address}')
         
 class App(customtkinter.CTk):
     def __init__(self) -> None:
@@ -100,14 +99,17 @@ class App(customtkinter.CTk):
         
         self.tab_view = MyTab(master=self)
         self.tab_view.grid(row=0, column=0)
+       
+        #Create Instance of Utilities and pass tab_view to get all properties/functions from it. 
+        self.utilities = Utilities(self.tab_view)
         
-        self.button1 = customtkinter.CTkButton(self, text='Create Database', command=Utilities().button_create_database, width=20)
+        self.button1 = customtkinter.CTkButton(self, text='Create Database', command=self.utilities.button_create_database, width=20)
         self.button1.grid(row=6, column=1, sticky='nw', ipadx=100)
         self.button1.place(x=50, y=300)
         if os.path.exists('database.db'):
             self.button1.configure(state='disabled')
             
-        self.button2 = customtkinter.CTkButton(self, text='Insert Data', command=Utilities().add_data)
+        self.button2 = customtkinter.CTkButton(self, text='Insert Data', command=self.utilities.add_data)
         self.button2.grid(row=6, column=2, sticky='nw')
         self.button2.place(x=170, y=300)
 
