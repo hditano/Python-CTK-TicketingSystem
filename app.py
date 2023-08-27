@@ -30,7 +30,7 @@ class MyTab(customtkinter.CTkTabview):
         self.label_tab1 = customtkinter.CTkLabel(master=self.tab('View Data'), text='View Data')
         
         self.label_tab2 = customtkinter.CTkLabel(master=self.tab('New Data'), text='New Data')
-         
+        
         self.label_name = customtkinter.CTkLabel(master=self.tab('New Data'), text='Company Name', fg_color='transparent')
         self.label_name.grid(row=0, column=0, sticky='ew', padx=20)
         self.input_name = customtkinter.CTkEntry(master=self.tab('New Data'), placeholder_text='Company')
@@ -62,7 +62,10 @@ class MyTab(customtkinter.CTkTabview):
         self.input_country = customtkinter.CTkEntry(master=self.tab('New Data'), placeholder_text='country..')
         self.input_country.grid(row=5, column=1, pady=5)
         
-
+    def display_data(self):
+        data = Company.select()
+        for datas in data:
+            print(f'{datas.name} {datas.address}')
 
 class Utilities:
     def __init__(self, tab_instance) -> None:
@@ -78,7 +81,7 @@ class Utilities:
             print('Creating Tables')
             db.create_tables([Company])
             print('Tables Created')
-   
+            
     #Get values from input fields and save it to DataBase 
     def add_data(self):
         name = self.tab_instance.input_name.get()
@@ -117,6 +120,10 @@ class App(customtkinter.CTk):
         self.button2 = customtkinter.CTkButton(self, text='Insert Data', command=self.utilities.add_data)
         self.button2.grid(row=6, column=2, sticky='nw')
         self.button2.place(x=170, y=300)
+        
+        self.button3 = customtkinter.CTkButton(self, text='Show Data', command=self.tab_view.display_data)
+        self.button3.grid(row=6, column=3, sticky='new')
+        self.button3.place(x=300, y=300)
 
 if __name__ == '__main__':
     app = App()
