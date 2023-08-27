@@ -66,11 +66,10 @@ class MyTab(customtkinter.CTkTabview):
 
 class Utilities:
     def __init__(self, tab_instance) -> None:
-        #create instance of class MyTab to pass all fields and properties
+        #create instance of class MyTab to get all fields and properties
         self.tab_instance = tab_instance
     
     def button_create_database(self):
-        database = db
         if os.path.exists('database.db'):
             print('Database already exists..')
         else:
@@ -79,11 +78,17 @@ class Utilities:
             print('Creating Tables')
             db.create_tables([Company])
             print('Tables Created')
-    
+   
+    #Get values from input fields and save it to DataBase 
     def add_data(self):
         name = self.tab_instance.input_name.get()
         address = self.tab_instance.input_address.get()
-        print(f'Hello {name} {address}')
+        phone = self.tab_instance.input_phone_number.get()
+        email = self.tab_instance.input_email_address.get()
+        city = self.tab_instance.input_city.get()
+        country = self.tab_instance.input_country.get()
+        NewData = Company(name=name, address=address, phone_number=phone, email_address=email, city=city, country=country)
+        NewData.save()
         
 class App(customtkinter.CTk):
     def __init__(self) -> None:
