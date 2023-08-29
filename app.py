@@ -63,9 +63,19 @@ class MyTab(customtkinter.CTkTabview):
         self.input_country.grid(row=5, column=1, pady=5)
         
     def display_data(self):
-        columns = ('first name', 'last name')
+        columns = ('Name', 'Address', 'Phone', 'Email', 'City', 'Country')
         tree = ttk.Treeview(self.tab('View Data'), columns=columns, show='headings')
+        tree.heading('Name', text='Name')
+        tree.heading('Address', text='Address')
+        tree.heading('Phone', text='Phone')
+        tree.heading('Email', text='Email')
+        tree.heading('City', text='City')
+        tree.heading('Country', text='Country')
         tree.grid(row= 0, column=0, sticky='ew', padx=20)
+        
+        for id, data in enumerate(Company.select()):
+            tree.insert('', index=id, id=id, values=[data.name, data.address, data.phone_number, data.email_address, data.city, data.country])
+        
         
             
 
@@ -105,7 +115,7 @@ class App(customtkinter.CTk):
         self.columnconfigure(1, weight=1)
         self.columnconfigure(2, weight=1)
         self.columnconfigure(3, weight=1)
-        self.resizable(0,0)
+        #self.resizable(0,0)
         
         self.tab_view = MyTab(master=self)
         self.tab_view.grid(row=0, column=0)
