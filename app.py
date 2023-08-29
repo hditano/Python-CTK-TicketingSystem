@@ -2,7 +2,7 @@ from datetime import datetime
 import customtkinter
 from peewee import *
 import os
-
+from tkinter import ttk
 
 db = SqliteDatabase('database.db')
 
@@ -63,13 +63,10 @@ class MyTab(customtkinter.CTkTabview):
         self.input_country.grid(row=5, column=1, pady=5)
         
     def display_data(self):
-        data = Company.select()
-        for datas in data:
-            print(f'{datas.name} {datas.address}')
-            self.new_data_name = customtkinter.CTkLabel(master=self.tab('View Data'), text=datas.name, fg_color='transparent')
-            self.new_data_name.grid(row=0, column=1, sticky='ew', padx=20)
-            self.new_data_address = customtkinter.CTkLabel(master=self.tab('View Data'), text=datas.address, fg_color='transparent')
-            self.new_data_address.grid(row=0, column=2, sticky='ew', padx=20)
+        columns = ('first name', 'last name')
+        tree = ttk.Treeview(self.tab('View Data'), columns=columns, show='headings')
+        tree.grid(row= 0, column=0, sticky='ew', padx=20)
+        
             
 
 class Utilities:
